@@ -93,6 +93,21 @@ public class UsuarioServiceImpl implements IUsuarioService {
 
     @Override
     public GenericFlow Login(GenericFlow flow) {
-        return null;
+        Usuario request = (Usuario) flow.getRequest();
+        Usuario response = usuarioRepository.findByUsernameAndPassword(request.getUsername(), request.getPassword());
+        if(response==null){
+            response=usuarioRepository.findByEmailAndPassword(request.getEmail(), request.getPassword());
+            if(response==null){
+                flow.setStatus("ERROR");
+                flow.setMessage("Datos de acceso incorrectos");
+                flow.setCode("401");
+                return flow;
+            }
+        }
+        flow.setStatus("OK");
+        flow.setCode("200");
+        flow.setResponse(response);
+        flow.setMessage("Usuario logueado");
+        return flow;
     }
 }

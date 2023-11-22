@@ -15,10 +15,18 @@ public class UsuarioController {
     IUsuarioService usuarioService;
 
     @PostMapping("/add")
-    public ResponseEntity<?> registrarVeterinaria(@RequestBody Usuario usuario){
+    public ResponseEntity<?> registrarUsuario(@RequestBody Usuario usuario){
         GenericFlow response = new GenericFlow();
         response.setRequest(usuario);
         response = usuarioService.registrarUsuario(response);
+        return ResponseEntity.ok(response);
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@RequestBody Usuario usuario){
+        GenericFlow response = new GenericFlow();
+        response.setRequest(usuario);
+        response = usuarioService.Login(response);
         return ResponseEntity.ok(response);
     }
 }
