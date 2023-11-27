@@ -9,6 +9,10 @@ import com.pandmuerto.petcitas.service.IUsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 public class UsuarioServiceImpl implements IUsuarioService {
 
@@ -88,7 +92,21 @@ public class UsuarioServiceImpl implements IUsuarioService {
 
     @Override
     public GenericFlow obtenerUsuarios(GenericFlow flow) {
-        return null;
+        Usuario request = (Usuario) flow.getRequest();
+        List<Serializable> responses = new ArrayList<>();
+        List<Usuario> usuarios = usuarioRepository.findByRolAndVeterinariaId(request.getRol(), request.getVeterinaria().getId());
+        if(usuarios.isEmpty()){
+            flow.setStatus("ERROR");
+            flow.setMessage("No hay usuarios registrados");
+            flow.setCode("404");
+            return flow;
+        }
+        responses.addAll(usuarios);
+        flow.setResponses(responses);
+        flow.setStatus("OK");
+        flow.setMessage(responses.size()+" Usuarios encontrados");
+        flow.setCode("200");
+        return flow;
     }
 
     @Override

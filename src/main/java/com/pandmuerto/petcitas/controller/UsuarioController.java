@@ -29,4 +29,12 @@ public class UsuarioController {
         response = usuarioService.Login(response);
         return ResponseEntity.ok(response);
     }
+
+    @PostMapping("/obtenerUsuarios")
+    public ResponseEntity<?> obtenerUsuarios(@RequestBody Usuario usuario){
+        GenericFlow response = new GenericFlow();
+        response.setRequest(usuario);
+        response = usuarioService.obtenerUsuarios(response);
+        return ResponseEntity.ok(response);
+    }
 }

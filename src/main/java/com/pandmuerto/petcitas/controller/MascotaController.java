@@ -30,4 +30,12 @@ public class MascotaController {
         response = mascotaService.obtenerMascotasPorCliente(response);
         return ResponseEntity.ok(response);
     }
+
+    @PostMapping("/mascotasPorVeterinaria")
+    public ResponseEntity<?> mascotasPorVeterinaroa(@RequestBody Usuario usuario){
+        GenericFlow response = new GenericFlow();
+        response.setRequest(usuario);
+        response = mascotaService.obtenerMascotas(response);
+        return ResponseEntity.ok(response);
+    }
 }

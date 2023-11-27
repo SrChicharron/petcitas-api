@@ -14,4 +14,5 @@ public interface IMascotaRepository extends JpaRepository<Mascota, Integer> {
     Mascota findByNombreAndClienteUsername(String nombre, String username);
     List<Mascota> findAll();
     List<Mascota> findByClienteUsername(String username);
+    List<Mascota> findByClienteVeterinariaId(int id);
 }

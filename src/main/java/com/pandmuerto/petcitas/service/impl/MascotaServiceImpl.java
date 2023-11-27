@@ -53,6 +53,21 @@ public class MascotaServiceImpl implements IMascotaService {
 
     @Override
     public GenericFlow obtenerMascotas(GenericFlow flow) {
+        Usuario request = (Usuario) flow.getRequest();
+        List<Serializable> responses = new ArrayList<>();
+        List<Mascota> mascotas = mascotaRepository.findByClienteVeterinariaId(
+                request.getVeterinaria().getId());
+        if(mascotas.isEmpty()){
+            flow.setStatus("ERROR");
+            flow.setMessage("No hay mascotas registradas");
+            flow.setCode("404");
+            return flow;
+        }
+        responses.addAll(mascotas);
+        flow.setResponses(responses);
+        flow.setStatus("OK");
+        flow.setMessage(mascotas.size() +" Mascotas encontradas");
+        flow.setCode("200");
         return flow;
     }
 
