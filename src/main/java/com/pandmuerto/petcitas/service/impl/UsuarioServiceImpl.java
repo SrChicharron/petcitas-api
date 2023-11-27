@@ -6,6 +6,7 @@ import com.pandmuerto.petcitas.model.flow.GenericFlow;
 import com.pandmuerto.petcitas.repository.IUsuarioRepository;
 import com.pandmuerto.petcitas.repository.IVeterinariaRepository;
 import com.pandmuerto.petcitas.service.IUsuarioService;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -77,9 +78,31 @@ public class UsuarioServiceImpl implements IUsuarioService {
 
     @Override
     public GenericFlow actualizarUsuario(GenericFlow flow) {
-        return null;
+        Usuario response = new Usuario();
+        Usuario request = (Usuario) flow.getRequest();
+        Veterinaria veterinaria = null;
+        response = usuarioRepository.findByEmail(request.getEmail());
+        if (response!=null){
+            flow.setStatus("ERROR");
+            flow.setMessage("Email ya existe");
+            flow.setCode("409");
+            return flow;
+        }
+        response = usuarioRepository.save(request);
+        if(response==null){
+            flow.setStatus("ERROR");
+            flow.setMessage("No se pudo registrar el Usuario");
+            flow.setCode("409");
+            return flow;
+        }
+        flow.setStatus("OK");
+        flow.setResponse(response);
+        flow.setMessage("Informacion de Usuario Actualizada");
+        flow.setCode("200");
+        return flow;
     }
 
+    @Transactional
     @Override
     public GenericFlow eliminarUsuario(GenericFlow flow) {
         Usuario request = (Usuario) flow.getRequest();

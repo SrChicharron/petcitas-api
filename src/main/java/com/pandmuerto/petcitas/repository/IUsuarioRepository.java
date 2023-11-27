@@ -13,5 +13,5 @@ public interface IUsuarioRepository extends JpaRepository<Usuario, Integer> {
     Usuario findByUsername(String username);
     Usuario findByUsernameAndPassword(String username, String password);
     List<Usuario> findByRolAndVeterinariaId(String rol, int id);
-    void deleteByUsername(String username);
+    public void deleteByUsername(String username);
 }

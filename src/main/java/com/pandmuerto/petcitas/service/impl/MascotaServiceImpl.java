@@ -5,6 +5,7 @@ import com.pandmuerto.petcitas.model.entity.Usuario;
 import com.pandmuerto.petcitas.model.flow.GenericFlow;
 import com.pandmuerto.petcitas.repository.IMascotaRepository;
 import com.pandmuerto.petcitas.service.IMascotaService;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -38,9 +39,16 @@ public class MascotaServiceImpl implements IMascotaService {
 
     @Override
     public GenericFlow actualizarMascota(GenericFlow flow) {
+        Mascota request = (Mascota) flow.getRequest();
+        Mascota mascota = mascotaRepository.save(request);
+        flow.setResponse(mascota);
+        flow.setStatus("OK");
+        flow.setMessage("Informacion de Mascota Actualizada");
+        flow.setCode("200");
         return flow;
     }
 
+    @Transactional
     @Override
     public GenericFlow eliminarMascota(GenericFlow flow) {
         Mascota request = (Mascota) flow.getRequest();

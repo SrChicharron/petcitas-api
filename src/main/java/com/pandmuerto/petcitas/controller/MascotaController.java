@@ -46,4 +46,12 @@ public class MascotaController {
         response = mascotaService.eliminarMascota(response);
         return ResponseEntity.ok(response);
     }
+
+    @PostMapping("/actualizar")
+    public ResponseEntity<?> actualizarMascota(@RequestBody Mascota mascota){
+        GenericFlow response = new GenericFlow();
+        response.setRequest(mascota);
+        response = mascotaService.actualizarMascota(response);
+        return ResponseEntity.ok(response);
+    }
 }
