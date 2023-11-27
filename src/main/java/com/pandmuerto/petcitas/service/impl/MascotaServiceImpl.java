@@ -43,6 +43,19 @@ public class MascotaServiceImpl implements IMascotaService {
 
     @Override
     public GenericFlow eliminarMascota(GenericFlow flow) {
+        Mascota request = (Mascota) flow.getRequest();
+        mascotaRepository.deleteById(request.getId());
+        Mascota response = mascotaRepository.findById(request.getId());
+        if(response == null){
+            flow.setStatus("OK");
+            flow.setMessage("Mascota eliminada");
+            flow.setCode("200");
+            return flow;
+        }
+        flow.setStatus("ERROR");
+        flow.setMessage("Error al eliminar mascota");
+        flow.setCode("409");
+        flow.setResponse(response);
         return flow;
     }
 

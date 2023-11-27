@@ -37,4 +37,12 @@ public class UsuarioController {
         response = usuarioService.obtenerUsuarios(response);
         return ResponseEntity.ok(response);
     }
+
+    @PostMapping("/eliminar")
+    public ResponseEntity<?> eliminarUsuario(@RequestBody Usuario usuario){
+        GenericFlow response = new GenericFlow();
+        response.setRequest(usuario);
+        response = usuarioService.eliminarUsuario(response);
+        return ResponseEntity.ok(response);
+    }
 }

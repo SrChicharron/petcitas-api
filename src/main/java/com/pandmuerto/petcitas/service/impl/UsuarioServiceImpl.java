@@ -82,7 +82,20 @@ public class UsuarioServiceImpl implements IUsuarioService {
 
     @Override
     public GenericFlow eliminarUsuario(GenericFlow flow) {
-        return null;
+        Usuario request = (Usuario) flow.getRequest();
+        usuarioRepository.deleteByUsername(request.getUsername());
+        Usuario response = usuarioRepository.findByUsername(request.getUsername());
+        if (response == null) {
+            flow.setStatus("OK");
+            flow.setMessage("Usuario eliminado");
+            flow.setCode("200");
+            return flow;
+        }else {
+            flow.setStatus("ERROR");
+            flow.setMessage("No se pudo eliminar el Usuario");
+            flow.setCode("409");
+            return flow;
+        }
     }
 
     @Override
