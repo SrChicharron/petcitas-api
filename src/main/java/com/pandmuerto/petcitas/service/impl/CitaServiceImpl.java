@@ -46,4 +46,32 @@ public class CitaServiceImpl implements ICitaService {
         flow.setCode("200");
         return flow;
     }
+
+    @Override
+    public GenericFlow eliminarCita(GenericFlow flow) {
+        Cita request = (Cita) flow.getRequest();
+        citaRepository.deleteById(request.getId());
+        Cita response = citaRepository.findById(request.getId()).orElse(null);
+        if(response == null){
+            flow.setStatus("OK");
+            flow.setMessage("Cita eliminada");
+            flow.setCode("200");
+        }else {
+            flow.setStatus("ERROR");
+            flow.setMessage("Error al eliminar la cita");
+            flow.setCode("404");
+        }
+        return flow;
+    }
+
+    @Override
+    public GenericFlow actualizarCita(GenericFlow flow) {
+        Cita request = (Cita) flow.getRequest();
+        Cita response = citaRepository.save(request);
+        flow.setResponse(response);
+        flow.setMessage("Cita actualizada");
+        flow.setStatus("OK");
+        flow.setCode("200");
+        return flow;
+    }
 }

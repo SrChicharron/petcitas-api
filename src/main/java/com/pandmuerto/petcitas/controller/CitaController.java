@@ -29,4 +29,20 @@ public class CitaController {
         response = citaService.obtenerCitas(response);
         return ResponseEntity.ok(response);
     }
+
+    @PostMapping("/actualizar")
+    public ResponseEntity<?> actualizarCita(@RequestBody Cita cita){
+        GenericFlow response = new GenericFlow();
+        response.setRequest(cita);
+        response = citaService.actualizarCita(response);
+        return ResponseEntity.ok(response);
+    }
+
+    @PostMapping("/eliminar")
+    public ResponseEntity<?> eliminarCita(@RequestBody Cita cita){
+        GenericFlow response = new GenericFlow();
+        response.setRequest(cita);
+        response = citaService.eliminarCita(response);
+        return ResponseEntity.ok(response);
+    }
 }
